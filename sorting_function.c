@@ -26,6 +26,25 @@ int string_comparator( const char str1[], const char str2[] )
      */
 
     // <YOUR CODE HERE>    
+    
+    int i = 0;
+    while(str1[i] != '\0' && str2[i] != '\0'){
+        if(str1[i] == str2[i]){}
+        else if(str1[i] < str2[i]){
+            return -1;
+        }
+        else if(str1[i] > str2[i]){
+            return 1;
+        }
+        i++;
+    }
+
+    if(str1[i] == '\0' && str2[i] != '\0'){
+        return -1;
+    }
+    else if(str1[i] != '\0' && str2[i] == '\0'){
+        return 1;
+    }
 
     return 0 ;
 }
@@ -37,7 +56,16 @@ int integer_comparator(int a, int b)
      * using the same convention as above (especially for return values)
      */
 
-    // <YOUR CODE HERE>    
+    // <YOUR CODE HERE>  
+    if(a < b){
+        return -1;
+    }  
+    else if ( a == b){
+        return 0;
+    }
+    else if(a > b){
+        return 1;
+    }
 
     return 0 ;
 }
@@ -55,6 +83,29 @@ int sorting_function( struct student* student_records[], int count, enum sort_ba
     // Recall that the input is an ARRAY of POINTERS to student structs
 
     // <YOUR CODE HERE>
+    if( student_records == NULL || count < 0 ) 
+    {
+        return -1 ; // Error condition
+    }
+
+    for (int i = 0; i < count; i++){
+        for(int j = 0; j < count; j++){
+            if(base == 0){
+                if( string_comparator( student_records[i]->_name, student_records[j]->_name ) == -1){
+                    struct student *temp = student_records[i];
+                    student_records[i] = student_records[j];
+                    student_records[j] = temp;
+                }
+            }
+            else if (base == 1){
+                if( integer_comparator( student_records[i]->_id, student_records[j]->_id ) == -1){
+                    struct student *temp = student_records[i];
+                    student_records[i] = student_records[j];
+                    student_records[j] = temp;
+                }
+            }
+        }
+    }
 
     return 0 ; // Return 0 to indicate success
 }
@@ -79,6 +130,19 @@ int is_sorted( struct student* student_records[], int count, enum sort_base base
 
     // check if the array is sorted
     // <YOUR CODE HERE>
+    for(int i = 0; i < count - 1; i++){
+        if(base == 0){
+            if( string_comparator( student_records[i]->_name, student_records[i + 1]->_name ) != -1 ){
+                return 0;
+            }
+
+        }
+        else if (base == 1){
+            if( integer_comparator( student_records[i]->_id, student_records[i + 1]->_id ) != -1){
+                return 0;
+            }
+        }
+    }
     
 
     return 1 ; // Return 1 to indicate the array is sorted
